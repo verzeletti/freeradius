@@ -1,3 +1,11 @@
+#
+# File: sites-available/default
+#
+# versao 20240201
+#
+# Glaidson Verzeletti <verzeletti@gmail.com>
+#
+#
 # OBSERVAÇÃO:
 #     Versão deve estar alinhada com arquivo policy/vlan_ifsc
 #
