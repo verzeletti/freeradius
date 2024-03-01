@@ -25,9 +25,9 @@
 
 6. Edite os arquivos "sites-available/default" e "sites-available/inner-tunnel" adicionado a opção "rewrite.vlan_ifsc" na seção "post-auth".
 
-  > 5.1 Aqui um detalhe para ficar atento! Se quiser restringir o radius para autenticar somente a wifi, pode fazer uso do laço "&Called-Station-Id && &Called-Station-Id =~ /.*:IFSC" na seção "authorize". Seguir modelos já existentes. Recomendo deixar comentado para que se possa fazer uso da autenticação 802.1X também nos switchs e opção de teste de Usuário Radius através do FortiGate.
+   > 5.1 Aqui um detalhe para ficar atento! Se quiser restringir o radius para autenticar somente a wifi, pode fazer uso do laço "&Called-Station-Id && &Called-Station-Id =~ /.*:IFSC" na seção "authorize". Seguir modelos já existentes. Recomendo deixar comentado para que se possa fazer uso da autenticação 802.1X também nos switchs e opção de teste de Usuário Radius através do FortiGate.
   
-  > 5.2 O servidor está projetado para autenticar automaticamente computadores no domínio, desde que estejam dentra da "OU Wifi" e em seu respectivo local. Note que, cada OU (ex: ou=Administrativos,ou=Wifi,...) corresponde à um ID de VLAN. E, não será solicitado usuário e senha para o usuário!
+   > 5.2 O servidor está projetado para autenticar automaticamente computadores no domínio, desde que estejam dentra da "OU Wifi" e em seu respectivo local. Note que, cada OU (ex: ou=Administrativos,ou=Wifi,...) corresponde à um ID de VLAN. E, não será solicitado usuário e senha para o usuário!
  
 7. O uso de somente um SSID é recomendado e facilitará a vida de todo mundo (usuários e administradores de rede :)
 
