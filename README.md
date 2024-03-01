@@ -25,6 +25,7 @@
 
 
 
+
 # IMPLEMENTAÇÃO
 
 1. Edite o arquivo "clients.conf" e personalize ele com os IPs do dispositivos que farão uso do radius (ex: switch, fortigate, etc) e uma senha exclusiva para cada. Ou, siga o exemplo e deixe "*" no "ipv4addr" para usar a mesma senha em vários dispositivos (não recomendado)
