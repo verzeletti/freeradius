@@ -1,18 +1,12 @@
 #
-# File: vlan_ifsc
+# File: policy/vlan_ifsc
 #
 # Função para determinar o VLAN Id do usuario ou computador, com base na árvore ldap (samba-ad)
 #
-# versao 20240201
+# versao 20240229
 #
 # Glaidson Verzeletti <verzeletti@gmail.com>
 #
-#
-# OBSERVAÇÕES:
-#     OpenLDAP - Filtrar por Grupo "Domain User" com ID = 513
-#                                  "LG-CTIC" ID = 43468 (não funciona ainda)
-#                                       ou 10233?
-#     Samba4 - Filtro por "Domain Users" não está funcionando
 #
 #
 # EXEMPLOS DE FILTROS POR GRUPO:
@@ -24,22 +18,22 @@
 #
 # EXEMPLOS DE FILTROS POR DN:
 #
-#    if ("%{ldap:ldap:///OU=Usuarios,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{User-Name}}")
+#    if ("%{ldap:ldap:///OU=Usuarios,dc=urupema,dc=sc?sAMAccountName?sub?sAMAccountName=%{User-Name}}")
 #
-#    if ("%{ldap:ldap:///OU=Alunos,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{User-Name}}")
+#    if ("%{ldap:ldap:///OU=Usuarios,dc=urupema,dc=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}")
 #
 #
-########################
+#-=-=-=-=-=-=-=-==-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 rewrite.vlan_ifsc {
         # Logins proibidos de usar WIFI
-        if (LDAP-Group == "LG-WIFI-Deny" || LDAP-Group == "WIFI-Deny") {
+        if (LDAP-Group == "WIFI-Deny" || LDAP-Group == "wifi-deny") {
                 reject
         }
         # Servidores, Tutores, Bolsistas
-        elsif ("%{ldap:ldap:///OU=Usuarios,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{User-Name}}") {
+        elsif ("%{ldap:ldap:///OU=Usuarios,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") {
                 # Grupo com Permissão Especial
-                if (LDAP-Group == "LG-CTIC") {
+                if (LDAP-Group == "Domain Admins") {
                         update reply {
                                 Tunnel-Type := VLAN,
                                 Tunnel-Medium-Type := IEEE-802,
@@ -58,7 +52,7 @@ rewrite.vlan_ifsc {
                 }
         }
         # Alunos
-        elsif ("%{ldap:ldap:///OU=Alunos,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{User-Name}}") {
+        elsif ("%{ldap:ldap:///OU=Alunos,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") {
                 update reply {
                         Tunnel-Type := VLAN,
                         Tunnel-Medium-Type := IEEE-802,
@@ -67,7 +61,7 @@ rewrite.vlan_ifsc {
                 updated
         }
         # Visitantes, Tercerizados e Computadores
-        elsif ("%{ldap:ldap:///OU=Terceirizados,OU=Usuarios,OU=Lages_LAN,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{User-Name}}" || "%{ldap:ldap:///OU=Visitantes,OU=Usuarios,OU=Lages_LAN,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{User-Name}}" || "%{ldap:ldap:///OU=Wifi,OU=Visitantes,OU=Computadores,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") {
+        elsif ("%{ldap:ldap:///OU=Terceirizados,OU=Usuarios,OU=Lages_LAN,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}" || "%{ldap:ldap:///OU=Visitantes,OU=Usuarios,OU=Lages_LAN,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}" || "%{ldap:ldap:///OU=Wifi,OU=Visitantes,OU=Computadores,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") {
                 update reply {
                         Tunnel-Type := VLAN,
                         Tunnel-Medium-Type := IEEE-802,
@@ -93,6 +87,7 @@ rewrite.vlan_ifsc {
                 }
                 updated
         }
+        # VLAN Inexistente para evitar acesso indevido
         else {
                 update reply {
                         Tunnel-Type := VLAN,
@@ -102,5 +97,3 @@ rewrite.vlan_ifsc {
                 updated
         }
 }
-
-                          
