@@ -12,7 +12,7 @@
 
 6. Recomendo a seguinte estrutura de OUs:
 
-![mstsc_GCEFTc1rY4](https://github.com/verzeletti/freeradius/assets/23221957/c68d673b-3c3e-4e1a-a14b-4a72e77a3def)
+> ![mstsc_GCEFTc1rY4](https://github.com/verzeletti/freeradius/assets/23221957/c68d673b-3c3e-4e1a-a14b-4a72e77a3def)
 
 
 7. Ao realizar a implementação, recomenda-se ativar o modo debug, adicionando o parâmetro "-X" no arquivo "/etc/default/freeradius".
