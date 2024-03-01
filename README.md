@@ -37,10 +37,10 @@
 4. Edite o arquivo "mods-available/eap" e corrija os parâmetros "private_key_file" e "certificate_file"
 
 5. Edite os arquivos "sites-available/default" e "sites-available/inner-tunnel" adicionado a opção "rewrite.vlan_ifsc" na seção "post-auth". 
-    5.1 Aqui um detalhe para ficar atento! Se quiser restringir o radius para autenticar somente a wifi, pode fazer uso do laço "&Called-Station-Id && &Called-Station-Id =~ /.*:IFSC" na seção "authorize". Seguir modelos já existentes. Recomendo deixar comentado para que se possa fazer uso da autenticação 802.1X também nos switchs e opção de teste de Usuário Radius através do FortiGate.
-    5.2 O servidor está projetado para autenticar automaticamente computadores no domínio, desde que estejam dentra da "OU Wifi" e em seu respectivo local. Note que, cada OU (ex: ou=Administrativos,ou=Wifi,...) corresponde à um ID de VLAN. E, não será solicitado usuário e senha para o usuário!
+    i Aqui um detalhe para ficar atento! Se quiser restringir o radius para autenticar somente a wifi, pode fazer uso do laço "&Called-Station-Id && &Called-Station-Id =~ /.*:IFSC" na seção "authorize". Seguir modelos já existentes. Recomendo deixar comentado para que se possa fazer uso da autenticação 802.1X também nos switchs e opção de teste de Usuário Radius através do FortiGate.
+    ii. O servidor está projetado para autenticar automaticamente computadores no domínio, desde que estejam dentra da "OU Wifi" e em seu respectivo local. Note que, cada OU (ex: ou=Administrativos,ou=Wifi,...) corresponde à um ID de VLAN. E, não será solicitado usuário e senha para o usuário!
 
 7. O uso de somente um SSID é recomendado e facilitará a vida de todo mundo (usuários e administradores de rede :)
-    7.1 No fortiGate crie o SSID IFSC como "WPA3 Enterprise Transition", Optional VLAN ID = 0 e ative a opção "Dynamic VLAN assignment"  
+    i. No fortiGate crie o SSID IFSC como "WPA3 Enterprise Transition", Optional VLAN ID = 0 e ative a opção "Dynamic VLAN assignment"  
 
 6. Último detalhe, mais não menos importante: não esqueça de configurar os IDs de VLAN utilizados em todas as portas de switches que tem um Access Point conectado.
