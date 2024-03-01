@@ -1,6 +1,6 @@
 # CONSIDERAÇÕES INICIAIS
 
-1. A instalação do freeradius foi realizada no momento da instalação do servidor Samba-AD, conforme [projeto Samba-AD]([http://www.google.fr/](https://git.ifsc.edu.br/ctic/cte/samba4/samba4-ad) "Samba-AD IFSC") coordenado pelo Igor
+1. A instalação do freeradius foi realizada no momento da instalação do servidor Samba-AD, conforme [projeto Samba-AD](https://git.ifsc.edu.br/ctic/cte/samba4/samba4-ad) "Samba-AD IFSC") coordenado pelo Igor
 
 2. A informação da "Base DN" pode ser encontrada em "mods-enabled/ldap"
 
