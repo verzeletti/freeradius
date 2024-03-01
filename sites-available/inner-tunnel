@@ -1,15 +1,19 @@
 #
 # File: sites-available/default
 #
-# versao 20240201
+# versao 20240229
 #
-# Glaidson Verzeletti <verzeletti@gmail.com>
+# Glaidson Verzeletti <verzeletti (at) gmail dot com>
 #
 #
 # OBSERVAÇÃO:
-#     Versão deve estar alinhada com arquivo policy/vlan_ifsc
+#     Site Radius alinhado com arquivo policy/vlan_ifsc
 #
-########################
+#
+# -- Configurações necessárias nos notebooks: GIT do projeto Samba4-AD
+# -- Projeto coordenado pelo Igor Fernandes Kattar <igor.kattar@ifsc.edu.br>
+#      .: https://git.ifsc.edu.br/ctic/cte/samba4/
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-===-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 server inner-tunnel {
 listen {
@@ -42,46 +46,13 @@ authorize {
         }
         files
         expiration
-        # Permite usuarios das OUs Usuarios, Alunos, Lages_LAN, Computadores logare no SSID IFSC
+        # Permite aos usuarios do Samba-AD fazem login apenas se utilizado o SSID "IFSC"
         # Configurações necessárias nos notebooks: GIT do projeto Samba4-AD
-        if ( &Called-Station-Id && &Called-Station-Id =~ /.*:IFSC$/i) {
-                if ("%{ldap:ldap:///OU=Wifi,OU=Computadores,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") {
-                        ok = return
-                }
-                elsif ("%{ldap:ldap:///OU=Visitantes,OU=Usuarios,OU=Lages_LAN,DC=lages,DC=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") || ("%{ldap:ldap:///OU=Terceirizados,OU=Usuarios,OU=Lages_LAN,DC=lages,DC=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") {
-                        ok = return
-                }
-                elsif ("%{ldap:ldap:///OU=Usuarios,dc=lages,dc=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") {
-                        ok = return
-                }
-                elsif ("%{ldap:ldap:///OU=Alunos,DC=lages,DC=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") {
-                        ok = return
-                }
-                else{
-                        reject
-                }
-        }
-        elsif ( &Called-Station-Id && &Called-Station-Id =~ /.*:IFSC-ADM$/i) {
-                if ("%{ldap:ldap:///OU=Usuarios,DC=lages,DC=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") {
-                        ok = return
-                }else{
-                        reject
-                }
-        }
-        elsif ( &Called-Station-Id && &Called-Station-Id =~ /.*:IFSC-ALUNOS$/i) {
-                if ("%{ldap:ldap:///OU=Alunos,DC=lages,DC=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") {
-                        ok = return
-                }else{
-                        reject
-                }
-        }
-        elsif ( &Called-Station-Id && &Called-Station-Id =~ /.*:IFSC-VISITANTE$/i) {
-                if ("%{ldap:ldap:///OU=Visitantes,OU=Usuarios,OU=Lages_LAN,DC=lages,DC=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") || ("%{ldap:ldap:///OU=Terceirizados,OU=Usuarios,OU=Lages_LAN,DC=lages,DC=sc?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") {
-                        ok = return
-                }else{
-                        reject
-                }
-        }
+        #if ( &Called-Station-Id && &Called-Station-Id =~ /.*:IFSC$/i) {
+        #       ok = return
+        #}else  {
+        #       reject
+        #}
 }
 authenticate {
         ntlm_auth
@@ -94,9 +65,6 @@ authenticate {
 session {
 }
 post-auth {
-        # Função do "policy/vlan_ifsc": VID automático para usuários e computadores
-        rewrite.vlan_ifsc
-
         Post-Auth-Type REJECT {
                 attr_filter.access_reject
                 update outer.session-state {
@@ -105,6 +73,8 @@ post-auth {
         }
         Post-Auth-Type Challenge {
         }
+        # Função do "policy/vlan_ifsc": VID automático para usuários e computadores
+        rewrite.vlan_ifsc
 }
 pre-proxy {
 }
@@ -112,4 +82,3 @@ post-proxy {
  eap
 }
 }
-
