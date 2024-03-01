@@ -1,0 +1,28 @@
+#
+# File: users
+#
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-==-==
+DEFAULT Framed-Protocol == PPP
+        Framed-Protocol = PPP,
+        Framed-Compression = Van-Jacobson-TCP-IP
+
+DEFAULT Hint == "CSLIP"
+        Framed-Protocol = SLIP,
+        Framed-Compression = Van-Jacobson-TCP-IP
+
+DEFAULT Hint == "SLIP"
+        Framed-Protocol = SLIP
+
+####
+# Se utilizar a policy "rewrite.vlan_ifsc", deixar linhas abaixo comentadas
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+# Quaisquer sejam os grupos dos usuarios autenticados todos aqueles tem
+#permissao para utilizar a vlan de id 1
+#DEFAULT
+#        Tunnel-Type := VLAN,
+#        Tunnel-Medium-Type := IEEE-802,
+#        Tunnel-Private-Group-Id := 1
+
+# Usuario nao autenticado nao tem acesso a porta (vlan tagged nem untagged)
+#DEFAULT Auth-Type := Reject
