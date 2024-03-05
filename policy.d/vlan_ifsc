@@ -38,7 +38,7 @@ VISITANTES    = "OU=Visitantes,${policy.USER_CAMPUS}"
 
 COMP_ADM  = "OU=Administrativos,${policy.COMP_CAMPUS}"
 COMP_LABS = "OU=Laboratorios,${policy.COMP_CAMPUS}"
-COMP_TERC = "OU=Terceirizados${policy.COMP_CAMPUS}"
+COMP_TERC = "OU=Terceirizados,${policy.COMP_CAMPUS}"
 
 
 # (2.) Função utilizada pelos sites
