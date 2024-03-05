@@ -97,7 +97,7 @@ rewrite.vlan_ifsc {
                 }
                 updated
         }
-        # Computadores Laboatórios e Terceirizados - registrados no Samba-AD
+        # Computadores Laboratórios e Terceirizados - registrados no Samba-AD
         elsif ("%{ldap:ldap:///${policy.COMP_LABS}?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}" || \
                "%{ldap:ldap:///${policy.COMP_TERC}?sAMAccountName?sub?sAMAccountName=%{Stripped-User-Name}}") {
                 update reply {
